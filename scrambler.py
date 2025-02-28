@@ -45,30 +45,32 @@ def scramble(text):
         gibberish += word + ' '
     return (gibberish[:-1], keys)
 
-text = "example"
+text = 'example'
+output = 'scramble.png'
 if len(sys.argv) > 1:
     text = sys.argv[1]
-output = []
+    if len(sys.argv > 2):
+        output = sys.argv[2]
+words = []
 longest = 0
 for word in text.split():
-    output.append(scramble(word))
-print(output)
+    words.append(scramble(word))
 
 font_path = 'LiberationMono-Regular.ttf'
 font_size = 20
 font = ImageFont.truetype(font_path, font_size)
 longest = ''
-for word in output:
+for word in words:
     if len(word[0]) > len(longest):
         longest = word[0]
 width = round(font.getlength(longest) + (2 * font.size))
-height = (len(output) + 2) * font.size
+height = (len(words) + 1) * font.size
 img = Image.new('RGB', (width, height), color='white')
 d = ImageDraw.Draw(img)
 color1 = (0, 0, 0)
 color2 = (255, 0, 0)
 y = font.size
-for i, word in enumerate(output):
+for i, word in enumerate(words):
     text_width = font.getlength(word[0])
     x = (width - text_width) / 2
     for j, char in enumerate(word[0].upper()):
@@ -78,4 +80,4 @@ for i, word in enumerate(output):
             d.text((x, y), char, color1, font=font)
         x += font.getlength(char)
     y += font.size
-img.save('text_image.png')
+img.save(output)

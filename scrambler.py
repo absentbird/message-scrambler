@@ -49,7 +49,7 @@ text = 'example'
 output = 'scramble.png'
 if len(sys.argv) > 1:
     text = sys.argv[1]
-    if len(sys.argv > 2):
+    if len(sys.argv) > 2:
         output = sys.argv[2]
 words = []
 longest = 0

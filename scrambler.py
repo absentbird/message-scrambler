@@ -23,7 +23,7 @@ def suitable(characters, word):
             gaps += 1
     score = len(hits)
     if score == len(characters):
-        score += GAPMIN
+        score += 1
     ratio = score * 1.0 / len(word)
     if ratio >= HITRATE and gaps > GAPMIN:
         return hits
@@ -64,7 +64,7 @@ for word in words:
     if len(word[0]) > len(longest):
         longest = word[0]
 width = round(font.getlength(longest) + (2 * font.size))
-height = (len(words) + 1) * font.size
+height = (len(words) + 2) * font.size
 img = Image.new('RGB', (width, height), color='white')
 d = ImageDraw.Draw(img)
 color1 = (0, 0, 0)

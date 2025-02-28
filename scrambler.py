@@ -4,13 +4,14 @@ from english_words import get_english_words_set
 from PIL import Image, ImageDraw, ImageFont
 
 wordlist = list(get_english_words_set(['web2'], lower=True))
-GAPMIN = 2
-HITRATE = 0.5
+GAPMIN = 2 # Minimum number of non-matching letters
+HITRATE = 0.5 # Ratio of matching to non-matching
 
 def suitable(characters, word):
     gaps = 0
     hits = []
     index = 0
+    # Check which letters fit into the word and record their indices
     for position, char in enumerate(word):
         if index >= len(characters):
             gaps += 1
@@ -22,8 +23,12 @@ def suitable(characters, word):
         else:
             gaps += 1
     score = len(hits)
+    # Give score preference to fewer words
     if score == len(characters):
         score += 1
+        # Extra help to fit last two characters
+        if len(characters) < 3:
+            score += 1
     ratio = score * 1.0 / len(word)
     if ratio >= HITRATE and gaps > GAPMIN:
         return hits
@@ -51,6 +56,7 @@ if len(sys.argv) > 1:
     text = sys.argv[1]
     if len(sys.argv) > 2:
         output = sys.argv[2]
+
 words = []
 longest = 0
 for word in text.split():
@@ -67,8 +73,11 @@ width = round(font.getlength(longest) + (2 * font.size))
 height = (len(words) + 2) * font.size
 img = Image.new('RGB', (width, height), color='white')
 d = ImageDraw.Draw(img)
+
+# Colors used to signify characters
 color1 = (0, 0, 0)
-color2 = (255, 0, 0)
+color2 = (160, 32, 239)
+
 y = font.size
 for i, word in enumerate(words):
     text_width = font.getlength(word[0])
@@ -80,4 +89,5 @@ for i, word in enumerate(words):
             d.text((x, y), char, color1, font=font)
         x += font.getlength(char)
     y += font.size
+
 img.save(output)

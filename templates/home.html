@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}New Scramble{% endblock %}
+{% block content %}
+<input type="text" name="text" id="text"><br/>
+<input type="color" id="color" value="#ff0000"><br/>
+<button id="newscramble" onclick="scramble_text()">
+  Scramble Text
+</button>
+<script>
+  const scramble_text = () => {
+    const text = document.getElementById('text');
+    const color = document.getElementById('color');
+    const url = new URL("{{ url_for('new_scramble', _external=True) }}");
+    const params = new URLSearchParams(url.search);
+    params.set("text", text.value);
+    params.set("color", color.value);
+    url.search = params.toString();
+    window.location.href = url.href;
+  }
+  document.getElementById('text').onkeydown = function(e) {
+   if(e.keyCode == 13){
+     scramble_text();
+   }
+  };
+</script>
+{% endblock %}

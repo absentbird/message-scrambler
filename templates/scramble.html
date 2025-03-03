@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Scramble Results{% endblock %}
+{% block content %}
+<div id="textscramble">
+</div>
+<script>
+  const words = JSON.parse(`{{ words | safe }}`);
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const longest = words.reduce(
+    function (a, b) {
+      return a[0].length > b[0].length ? a : b;
+    }
+  );
+  ctx.font = "32px Helvetica";
+  canvas.width = ctx.measureText(longest[0].toUpperCase()).width + 64;
+  canvas.height = words.length * 32 + 32;
+  ctx.font = "32px Helvetica";
+  ctx.rect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "white";
+  ctx.fill();
+  let y = 32;
+  words.forEach(word => {
+    word[0] = word[0].toUpperCase();
+    const text_width = ctx.measureText(word[0]).width;
+    let x = (canvas.width - text_width) / 2;
+    Array.from(word[0]).forEach((c, j) => {
+      if (word[1].includes(j)) {
+        ctx.fillStyle = '{{ color }}';
+      } else {
+        ctx.fillStyle = 'black';
+      }
+      ctx.fillText(c, x, y);
+      x += ctx.measureText(c).width;
+    });
+    y += 32;
+  });
+  const jpgDataUrl = canvas.toDataURL('image/jpeg');
+  const img = new Image();
+  img.src = jpgDataUrl;
+  const scramble = document.getElementById('textscramble');
+  scramble.appendChild(img);
+  const br = document.createElement('br');
+  scramble.appendChild(br);
+  const link = document.createElement('a');
+  link.href = jpgDataUrl;
+  link.download = 'scramble-text.jpg';
+  link.innerText = 'Download';
+  link.style.color = '{{ color }}';
+  scramble.appendChild(link);
+</script>
+{% endblock %}

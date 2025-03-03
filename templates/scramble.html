@@ -14,12 +14,12 @@
   );
   ctx.font = "32px Helvetica";
   canvas.width = ctx.measureText(longest[0].toUpperCase()).width + 64;
-  canvas.height = words.length * 32 + 32;
+  canvas.height = words.length * 32 + 64;
   ctx.font = "32px Helvetica";
   ctx.rect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "white";
   ctx.fill();
-  let y = 32;
+  let y = 64;
   words.forEach(word => {
     word[0] = word[0].toUpperCase();
     const text_width = ctx.measureText(word[0]).width;

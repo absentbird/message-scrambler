@@ -9,3 +9,11 @@ The second argument sets the output path. The generated image is named `scramble
 `python scrambler.py "hidden message" example.png`
 
 ![Example image showing a collection of random words with a secret message spelled out using red letters](example.png)
+
+## Web App
+The message scrambler can also be run as a web app. There are only two endpoints:
+
+- `/` input text to scramble
+- `/scramble` view the output, text and color information are sent as url queries
+
+You can see a live version here: https://scrambler.absentbird.com/

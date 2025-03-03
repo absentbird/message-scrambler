@@ -10,7 +10,7 @@
   const scramble_text = () => {
     const text = document.getElementById('text');
     const color = document.getElementById('color');
-    const url = new URL("{{ url_for('new_scramble', _external=True) }}");
+    const url = new URL(window.location.origin + "{{ url_for('new_scramble') }}");
     const params = new URLSearchParams(url.search);
     params.set("text", text.value);
     params.set("color", color.value);

@@ -12,14 +12,15 @@
       return a[0].length > b[0].length ? a : b;
     }
   );
-  ctx.font = "32px Helvetica";
-  canvas.width = ctx.measureText(longest[0].toUpperCase()).width + 64;
-  canvas.height = words.length * 32 + 64;
+  const fsize = 32;
+  ctx.font = fsize.toString() + "px Helvetica";
+  canvas.width = ctx.measureText(longest[0].toUpperCase()).width + fsize * 2;
+  canvas.height = words.length * 32 + fsize * 1.75;
   ctx.font = "32px Helvetica";
   ctx.rect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "white";
   ctx.fill();
-  let y = 64;
+  let y = fsize * 1.75;
   words.forEach(word => {
     word[0] = word[0].toUpperCase();
     const text_width = ctx.measureText(word[0]).width;
